@@ -5,7 +5,9 @@ plugins {
 android {
     namespace 'com.example.videolibrary'
     compileSdk 32
-
+    dataBinding{
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.videolibrary"
         minSdk 21
