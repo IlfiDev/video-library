@@ -51,7 +51,7 @@ public class LoginViewModel extends BaseObservable {
     }
 
     public LoginViewModel() {
-        user = new User("ass","", "cummies");
+        user = new User("","", "");
     }
 
     public void onLoginClicked() {
@@ -62,7 +62,7 @@ public class LoginViewModel extends BaseObservable {
     }
 
     public boolean isInputDataValid() {
-        return !TextUtils.isEmpty(getUserEmail()) && Patterns.EMAIL_ADDRESS.matcher(getUserEmail()).matches() && getUserPassword().length() > 5;
+        return true;
 
     }
 }
