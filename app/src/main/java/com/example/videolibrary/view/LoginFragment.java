@@ -12,6 +12,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.example.videolibrary.MainActivity;
 import com.example.videolibrary.R;
 import com.example.videolibrary.databinding.FragmentLoginBinding;
 import com.example.videolibrary.viewmodel.LoginViewModel;
@@ -38,6 +39,11 @@ public class LoginFragment extends Fragment {
     public static void runMe(View view, String message) {
         if (message != null)
             Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void switchFragment(){
+        ((MainActivity) getActivity()).replaceFragment(1);
     }
 
 }
