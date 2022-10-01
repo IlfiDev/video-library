@@ -46,15 +46,14 @@ public class VideosFragment extends Fragment {
                     }
                 });
 
-        //model = new ViewModelProvider(this).get(VideosViewModel.class);
-//        model.updateVideoList();
-        updateVideoList();
-//        model.getVideos().observe(this.getActivity(), videos -> {
-//            for(int i = 0; i < videos.size(); i++){
-//                Log.i("ABOBA", videos.get(i).getName());
-//
-//            }
-//        });
+        model = new ViewModelProvider(this).get(VideosViewModel.class);
+        model.updateVideoList();
+        model.getVideos().observe(this.getActivity(), videos -> {
+            for(int i = 0; i < videos.size(); i++){
+                Log.i("ABOBA", videos.get(i).getName());
+
+            }
+        });
 
         return inflater.inflate(R.layout.fragment_videos, container, false);
     }
