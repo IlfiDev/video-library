@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.videolibrary.R;
+import com.example.videolibrary.view.Adapters.VideosAdapter;
 import com.example.videolibrary.viewmodel.VideosViewModel;
 
 import java.util.ArrayList;
@@ -47,33 +49,14 @@ public class VideosFragment extends Fragment {
                 });
 
         model = new ViewModelProvider(this).get(VideosViewModel.class);
-        model.updateVideoList();
         model.getVideos().observe(this.getActivity(), videos -> {
-            for(int i = 0; i < videos.size(); i++){
-                Log.i("ABOBA", videos.get(i).getName());
+            Log.e("SUSSUS", "AMOGUS");
+            VideosAdapter adapter = new VideosAdapter(getContext(), R.layout.video_layout, videos);
+            ListView listView = (ListView) getActivity().findViewById(R.id.videos_listview);
+            listView.setAdapter(adapter);
 
-            }
         });
 
         return inflater.inflate(R.layout.fragment_videos, container, false);
-    }
-    public void updateVideoList(){
-
-
-        Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = {MediaStore.Video.VideoColumns.DATA};
-        Cursor cursor = getActivity().getContentResolver().query(uri,
-                projection,
-                null,
-                null,
-                null);
-        ArrayList<String> pathArrList = new ArrayList<>();
-        if(cursor != null){
-            while (cursor.moveToNext()){
-                pathArrList.add(cursor.getString(0));
-            }
-            cursor.close();
-        }
-        Log.e("all path", pathArrList.toString());
     }
 }

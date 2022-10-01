@@ -3,17 +3,26 @@ package com.example.videolibrary.viewmodel;
 import android.app.Application;
 import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CancellationSignal;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+
 import com.example.videolibrary.model.Video;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,12 +41,13 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
     public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
 
     }
+
     List<Video> videoList = new ArrayList<Video>();
     private MutableLiveData<List<Video>> videos;
     public MutableLiveData<List<Video>> getVideos(){
         if (videos == null) {
              videos = new MutableLiveData<List<Video>>();
-            updateVideoList();
+             updateVideoList();
         }
         return videos;
 
@@ -45,7 +55,7 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
 
     public void updateVideoList(){
 
-        List<Video> videoList = new ArrayList<Video>();
+
 
         Uri collection;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -87,17 +97,15 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
                 String name = cursor.getString(nameColumn);
                 int duration = cursor.getInt(durationColumn);
                 int size = cursor.getInt(sizeColumn);
-
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-
-                // Stores column values and the contentUri in a local object
-                // that represents the media file.
-                videoList.add(new Video(contentUri, name, duration, size));
-            }
-            for(Video vid : videoList){
-                Log.e("ABOBA", vid.getName());
+                Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(getApplication().getContentResolver(),
+                        id,
+                        MediaStore.Video.Thumbnails.MINI_KIND,
+                        (BitmapFactory.Options) null);
+                videoList.add(new Video(contentUri, name, duration, size, thumbnail));
             }
         }
+        videos.postValue(videoList);
     }
 }
