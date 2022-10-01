@@ -1,5 +1,6 @@
 package com.example.videolibrary.viewmodel;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Patterns;
 
@@ -7,6 +8,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.videolibrary.model.User;
@@ -24,6 +26,16 @@ public class LoginViewModel extends BaseObservable {
         return toastMessage;
     }
 
+    private MutableLiveData<Integer> currentName;
+
+    public MutableLiveData<Integer> getCurrentName() {
+        if (currentName == null) {
+            currentName = new MutableLiveData<Integer>();
+        }
+        return currentName;
+    }
+
+// Rest of the ViewModel...
 
     private void setToastMessage(String toastMessage) {
 
@@ -67,6 +79,7 @@ public class LoginViewModel extends BaseObservable {
     }
 
     public void onLoginClicked() {
+        currentName.setValue(1);
         if (isInputDataValid())
             setToastMessage(successMessage);
         else
@@ -76,6 +89,8 @@ public class LoginViewModel extends BaseObservable {
     public boolean isInputDataValid() {
         return true;
 
+    }
+    public void onRegisterClicked(){
     }
 }
 

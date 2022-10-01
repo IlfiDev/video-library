@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.videolibrary.MainActivity;
 import com.example.videolibrary.R;
@@ -19,6 +21,8 @@ import com.example.videolibrary.viewmodel.LoginViewModel;
 
 public class LoginFragment extends Fragment {
     FragmentLoginBinding binding;
+//    private LoginViewModel model;
+
     public LoginFragment(){
         super(R.layout.fragment_login);
     }
@@ -26,6 +30,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
