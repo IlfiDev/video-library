@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Folder {
     private String name;
-    private List<Video> videos = new ArrayList<>();
+    private List<Video> videos;
 
-    public Folder(String name, List<Video> videos) {
+    public Folder(String name) {
         this.name = name;
-        this.videos = videos;
+        this.videos = new ArrayList<>();;
     }
 
     public int getAmountOfItems() {

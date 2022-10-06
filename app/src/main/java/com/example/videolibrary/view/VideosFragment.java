@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.videolibrary.R;
 import com.example.videolibrary.view.Adapters.VideosAdapter;
+import com.example.videolibrary.viewmodel.VideoDataBase;
 import com.example.videolibrary.viewmodel.VideosViewModel;
 
 import java.util.ArrayList;
@@ -48,14 +49,17 @@ public class VideosFragment extends Fragment {
                     }
                 });
 
-        model = new ViewModelProvider(this).get(VideosViewModel.class);
-        model.getVideos().observe(this.getActivity(), videos -> {
-            Log.e("SUSSUS", "AMOGUS");
-            VideosAdapter adapter = new VideosAdapter(getContext(), R.layout.video_layout, videos);
-            ListView listView = (ListView) getActivity().findViewById(R.id.videos_listview);
-            listView.setAdapter(adapter);
-
-        });
+//        model = new ViewModelProvider(this).get(VideosViewModel.class);
+//        model.getVideos().observe(this.getActivity(), videos -> {
+//            Log.e("SUSSUS", "AMOGUS");
+//            VideosAdapter adapter = new VideosAdapter(getContext(), R.layout.video_layout, videos);
+//            ListView listView = (ListView) getActivity().findViewById(R.id.videos_listview);
+//            listView.setAdapter(adapter);
+//
+//        });
+        VideosAdapter adapter = new VideosAdapter(getContext(), R.layout.video_layout, VideoDataBase.getAllVideos());
+        ListView listView = (ListView) getActivity().findViewById(R.id.videos_listview);
+        listView.setAdapter(adapter);
 
         return inflater.inflate(R.layout.fragment_videos, container, false);
     }

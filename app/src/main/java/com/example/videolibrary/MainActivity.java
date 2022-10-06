@@ -33,6 +33,7 @@ import com.example.videolibrary.view.SharedFoldersFragment;
 import com.example.videolibrary.view.VideosFragment;
 import com.example.videolibrary.viewmodel.FragmentViewModel;
 import com.example.videolibrary.viewmodel.LoginViewModel;
+import com.example.videolibrary.viewmodel.VideoDataBase;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public List<Object> fragmentsList = new ArrayList<Object>();
     private BottomNavigationView bottomBar;
     private FragmentViewModel model;
-
+    private VideoDataBase vdb;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentsList.add(localFoldersFragment);
         fragmentsList.add(sharedFoldersFragment);
         replaceFragment(0);
-
+        vdb.updateVideoList();
         //replaceFragment(1);
         bottomBar = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
