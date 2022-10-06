@@ -1,9 +1,10 @@
 package com.example.videolibrary.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Folder {
+public class Folder implements Serializable {
     private String name;
     private List<Video> videos;
 

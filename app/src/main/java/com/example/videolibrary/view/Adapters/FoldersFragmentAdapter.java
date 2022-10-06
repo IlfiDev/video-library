@@ -48,8 +48,9 @@ public class FoldersFragmentAdapter extends BaseAdapter {
         TextView name = (TextView) newView.findViewById(R.id.video_text);
         ImageView image = (ImageView) newView.findViewById(R.id.video_thumbnail);
         name.setText(list.get(i).getName());
-        image.setImageBitmap(list.get(i).getVideos().get(i).getThumbnail());
+        image.setImageBitmap(list.get(i).getVideos().get(0).getThumbnail());
         return newView;
 
     }
+
 }

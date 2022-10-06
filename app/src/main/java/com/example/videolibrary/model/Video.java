@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 
+import java.io.Serializable;
+
 // Container for information about each video.
-public class Video {
+public class Video implements Serializable {
     private final Uri uri;
     private final String name;
     private final int duration;
@@ -27,6 +29,9 @@ public class Video {
     }
     public Bitmap getThumbnail(){
         return thumbnail;
+    }
+    public Uri getUri(){
+        return uri;
     }
 }
 

@@ -18,12 +18,18 @@ import androidx.lifecycle.ViewModel;
 import com.example.videolibrary.model.Folder;
 import com.example.videolibrary.model.Video;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class VideoDataBase extends AppCompatActivity {
+public class VideoDataBase extends ViewModel {
+    Application application;
+    public VideoDataBase(@NonNull Application application) {
+        super((Closeable) application);
+        this.application = application;
+    }
 
     public static List<Folder> folders = new ArrayList<Folder>();
 
@@ -48,7 +54,7 @@ public class VideoDataBase extends AppCompatActivity {
         String[] selectionArgs = new String[]{
                 String.valueOf(TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS))};
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+        try (Cursor cursor = application.getApplicationContext().getContentResolver().query(
                 collection,
                 projection,
                 selection,
@@ -73,7 +79,7 @@ public class VideoDataBase extends AppCompatActivity {
                 String path = cursor.getString(pathid);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-                Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(getContentResolver(),
+                Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(application.getContentResolver(),
                         id,
                         MediaStore.Video.Thumbnails.MINI_KIND,
                         (BitmapFactory.Options) null);
