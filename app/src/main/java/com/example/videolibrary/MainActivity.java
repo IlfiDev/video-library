@@ -1,43 +1,36 @@
 package com.example.videolibrary;
 
 import android.Manifest;
-import android.app.FragmentManager;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.videolibrary.databinding.ActivityMainBinding;
 import com.example.videolibrary.model.Folder;
 import com.example.videolibrary.model.Video;
 import com.example.videolibrary.view.LocalFoldersFragment;
+import com.example.videolibrary.view.Login;
 import com.example.videolibrary.view.LoginFragment;
 import com.example.videolibrary.view.SharedFoldersFragment;
 import com.example.videolibrary.view.VideosFragment;
-import com.example.videolibrary.viewmodel.FragmentViewModel;
-import com.example.videolibrary.viewmodel.LoginViewModel;
-import com.example.videolibrary.viewmodel.VideoDataBase;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -52,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public LocalFoldersFragment localFoldersFragment = new LocalFoldersFragment();
     public SharedFoldersFragment sharedFoldersFragment = new SharedFoldersFragment();
     public List<Object> fragmentsList = new ArrayList<Object>();
+    private boolean isLoggedIn = false;
     private BottomNavigationView bottomBar;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -59,12 +53,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         fragmentsList.add(loginFragment);
         fragmentsList.add(videosFragment);
         fragmentsList.add(localFoldersFragment);
         fragmentsList.add(sharedFoldersFragment);
-        replaceFragment(0);
+        if(!isLoggedIn) {
+            Intent loginIntent = new Intent(this, Login.class);
+            startActivity(loginIntent);
+        }
+        replaceFragment(1);
         updateVideoList();
         bottomBar = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,11 +77,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab_local_folders:
                         Toast.makeText(MainActivity.this, "Local", Toast.LENGTH_SHORT).show();
                         replaceFragment(2);
-
-                        break;
-                    case R.id.tab_shared_folders:
-                        Toast.makeText(MainActivity.this, "Shared", Toast.LENGTH_SHORT).show();
-                        replaceFragment(3);
 
                         break;
 
