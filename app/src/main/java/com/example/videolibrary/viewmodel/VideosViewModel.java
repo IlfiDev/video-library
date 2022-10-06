@@ -16,6 +16,7 @@ import android.util.Size;
 import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
@@ -68,7 +69,8 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
                 MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.DURATION,
-                MediaStore.Video.Media.SIZE
+                MediaStore.Video.Media.SIZE,
+                MediaStore.Video.Media.RELATIVE_PATH
         };
         String selection = MediaStore.Video.Media.DURATION +
                 " >= ?";
@@ -90,6 +92,7 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
             int durationColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE);
+            int pathid = cursor.getColumnIndex(MediaStore.Video.Media.RELATIVE_PATH);
 
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
@@ -97,6 +100,7 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
                 String name = cursor.getString(nameColumn);
                 int duration = cursor.getInt(durationColumn);
                 int size = cursor.getInt(sizeColumn);
+                String path = cursor.getString(pathid);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
                 Bitmap thumbnail = MediaStore.Video.Thumbnails.getThumbnail(getApplication().getContentResolver(),
@@ -104,6 +108,9 @@ public class VideosViewModel extends AndroidViewModel implements Observable {
                         MediaStore.Video.Thumbnails.MINI_KIND,
                         (BitmapFactory.Options) null);
                 videoList.add(new Video(contentUri, name, duration, size, thumbnail));
+                //MediaStore.getMediaUri(getApplication().getApplicationContext(), contentUri).getEncodedPath();
+
+                Log.e("AMOGUS", path);
             }
         }
         videos.postValue(videoList);
